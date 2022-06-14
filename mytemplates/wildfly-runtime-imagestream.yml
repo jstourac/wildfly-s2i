@@ -1,0 +1,16 @@
+---
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: wildfly-runtime
+spec:
+  tags:
+  - name: latest
+    annotations:
+      description: wildfly-runtime image stream
+      iconClass: icon-wildfly
+      tags: java,widlfly
+      version: 'latest'
+    from:
+      kind: DockerImage
+      name: "quay.io/wildfly/wildfly-runtime-jdk11:latest"

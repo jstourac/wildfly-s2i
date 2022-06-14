@@ -1,0 +1,19 @@
+---
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: wildfly
+  annotations:
+    openshift.io/display-name: "WildFly S2I - jstourac"
+spec:
+  tags:
+  - name: latest
+    annotations:
+      description: wildfly-builder image stream
+      iconClass: icon-wildfly
+      tags: builder,java,widlfly,galleon
+      sampleRepo: https://github.com/openshift/openshift-jee-sample.git
+      version: 'latest'
+    from:
+      kind: DockerImage
+      name: "quay.io/wildfly/wildfly-s2i-jdk11:latest"
