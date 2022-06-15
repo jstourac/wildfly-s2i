@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: wildfly-s2i-chained-build-template
@@ -40,8 +40,13 @@ parameters:
 - name: GALLEON_PROVISION_LAYERS
   description: A comma separated lists of galleon layers to provision. The main layers are cloud-server, jaxrs-server and datasources-web-server. You can check documentation to get more details on layers.
   displayName: List of Galleon layers.
-  required: false
-  value:
+  required: true
+  value: cloud-server
+- name: GALLEON_PROVISION_FEATURE_PACKS
+  description: A comma separated lists of Galleon feature-packs.
+  displayName: List of Galleon feature-packs.
+  required: true
+  value: org.wildfly:wildfly-galleon-pack:26.1.0.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.1.Final
 objects:
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
@@ -82,6 +87,8 @@ objects:
         env:
           - name: "GALLEON_PROVISION_LAYERS"
             value: ${GALLEON_PROVISION_LAYERS}
+          - name: "GALLEON_PROVISION_FEATURE_PACKS"
+            value: ${GALLEON_PROVISION_FEATURE_PACKS}
           - name: "GALLEON_PROVISION_DEFAULT_FAT_SERVER"
             value: "true"
       type: Source
@@ -115,7 +122,7 @@ objects:
             kind: ImageStreamTag
             name: ${APPLICATION_NAME}-build-artifacts:latest
           paths: 
-          - sourcePath: /s2i-output/server/
+          - sourcePath: /opt/server/
             destinationDir: "."
     strategy:
       dockerStrategy:

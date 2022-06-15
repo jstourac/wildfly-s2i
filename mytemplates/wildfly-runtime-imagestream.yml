@@ -1,6 +1,6 @@
 ---
 kind: ImageStream
-apiVersion: v1
+apiVersion: image.openshift.io/v1
 metadata:
   name: wildfly-runtime
 spec:
@@ -9,7 +9,7 @@ spec:
     annotations:
       description: wildfly-runtime image stream
       iconClass: icon-wildfly
-      tags: java,widlfly
+      tags: java,wildfly
       version: 'latest'
     from:
       kind: DockerImage
